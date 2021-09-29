@@ -1,0 +1,8 @@
+[2021-08-26 14:06:30] sql.INFO: [60.89] select `column_key` as `column_key`, `column_name` as `column_name`, `data_type` as `data_type`, `column_comment` as `column_comment`, `extra` as `extra`, `column_type` as `column_type` from information_schema.columns where `table_schema` = 'ekb_t_c' and `table_name` = 'distribute_customer' order by ORDINAL_POSITION [] []
+[2021-08-26 14:25:25] sql.INFO: [35.96] select * from information_schema.tables where table_schema = 'ekb_t_c' and table_name = 'migrations' [] []
+[2021-08-26 14:25:25] sql.INFO: [30.76] create table `migrations` (`id` int unsigned not null auto_increment primary key, `migration` varchar(255) not null, `batch` int not null) default character set utf8mb4 collate 'utf8mb4_unicode_ci' [] []
+[2021-08-26 14:25:25] sql.INFO: [13.87] select `migration` from `migrations` order by `batch` asc, `migration` asc [] []
+[2021-08-26 14:25:25] sql.INFO: [9.11] select max(`batch`) as aggregate from `migrations` [] []
+[2021-08-26 14:25:25] sql.INFO: [30.77] create table `distribute_customers` (`id` bigint unsigned not null auto_increment primary key, `sid` varchar(20) not null default '', `password` varchar(32) not null default '', `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 collate 'utf8mb4_unicode_ci' [] []
+[2021-08-26 14:25:25] sql.INFO: [32.59] alter table `distribute_customers` add unique `distribute_customers_sid_unique`(`sid`) [] []
+[2021-08-26 14:25:25] sql.INFO: [11.27] insert into `migrations` (`migration`, `batch`) values ('2021_08_26_141535_create_distribute_customer_table', '1') [] []

@@ -1,0 +1,48 @@
+# hyperf微服务
+version: "3"
+
+services:
+  consul-server-leader:
+    image: consul:latest
+    container_name: consul-server-leader
+    command: "agent -server -bootstrap -ui -node=consul-server-leader -client=0.0.0.0"
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+        ports:
+          - "8500:8500"
+        networks:
+          - hyperfservice
+  hyperfservice-1:
+    images: hyperf/hyperf:7.4-alpine-v3.14-swoole
+    container_name: "hyperfservice-1"
+    command: "php bin/hyperf.php start"
+    depends_on:
+      - "consul-server-leader"
+    volumes:
+      - /var/www/hyperfservice-1:/var/www
+    ports:
+      - "9501:9501"
+      - "9502:9502"
+      - "9503:9503"
+      - "9504:9504"
+      - "9505:9505"
+    networks:
+      - hyperfservice
+    tty: true
+  app:
+    images: hyperf/hyperf:7.4-alpine-v3.14-swoole
+    container_name: "app"
+    command: "php bin/hyperf.php start"
+    depends_on:
+      - "hyperfservice-1"
+    volumes:
+      - /var/www/web:/var/www
+    ports:
+      - "27017:27017"
+    networks:
+      - hyperfservice
+    tty: true
+  networks:
+    hyperfservice:
+      driver: bridge
+
