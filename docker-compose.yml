@@ -15,7 +15,7 @@ services:
   hyperfservice-1:
     image: hyperf/hyperf:7.4-alpine-v3.14-swoole
     container_name: "hyperfservice-1"
-    command: "php bin/hyperf.php start"
+    command: "top"
     depends_on:
       - "consul-server-leader"
     volumes:
@@ -32,7 +32,7 @@ services:
   app:
     image: hyperf/hyperf:7.4-alpine-v3.14-swoole
     container_name: "app"
-    command: "php bin/hyperf.php start"
+    command: "top"
     depends_on:
       - "hyperfservice-1"
     volumes:
