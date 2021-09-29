@@ -42,10 +42,10 @@ services:
     networks:
       - hyperfservice
     tty: true
-  networks:
-    hyperfservice:
-      driver: bridge
-  volumes:
-    hyperfservice:
-      driver: local
+networks:
+  hyperfservice:
+    driver: bridge
+volumes:
+  hyperfservice:
+    driver: local
 
