@@ -13,7 +13,7 @@ services:
     networks:
       - hyperfservice
   hyperfservice-1:
-    images: hyperf/hyperf:7.4-alpine-v3.14-swoole
+    image: hyperf/hyperf:7.4-alpine-v3.14-swoole
     container_name: "hyperfservice-1"
     command: "php bin/hyperf.php start"
     depends_on:
@@ -30,7 +30,7 @@ services:
       - hyperfservice
     tty: true
   app:
-    images: hyperf/hyperf:7.4-alpine-v3.14-swoole
+    image: hyperf/hyperf:7.4-alpine-v3.14-swoole
     container_name: "app"
     command: "php bin/hyperf.php start"
     depends_on:
@@ -45,4 +45,7 @@ services:
   networks:
     hyperfservice:
       driver: bridge
+  volumes:
+    microservice:
+      driver: local
 
