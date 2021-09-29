@@ -46,6 +46,6 @@ services:
     hyperfservice:
       driver: bridge
   volumes:
-    microservice:
+    hyperfservice:
       driver: local
 
