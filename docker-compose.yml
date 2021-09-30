@@ -42,7 +42,7 @@ services:
     volumes:
       - /var/www/web:/var/www
     ports:
-      - "27017:27017"
+      - "9508:9508"
     networks:
       hyperfservice:
         ipv4_address: 172.20.0.4
