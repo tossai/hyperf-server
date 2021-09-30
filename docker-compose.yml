@@ -52,7 +52,7 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 127.20.0.0/16
+        - subnet: 172.20.0.0/16
           gateway: 172.20.0.1
 volumes:
   hyperfservice:
