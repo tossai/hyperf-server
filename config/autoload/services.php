@@ -18,7 +18,7 @@ return [
     'providers' => [],
     'drivers' => [
         'consul' => [
-            'uri' => 'http://172.17.0.4:8500/',
+            'uri' => 'http://172.20.0.2:8500/',
             'token' => '',
             'check' => [
                 'deregister_critical_service_after' => '90m',

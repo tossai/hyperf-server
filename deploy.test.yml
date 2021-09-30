@@ -1,30 +1,62 @@
-version: '3.7'
+version: "3"
+
 services:
-  hyperf:
-    image: $REGISTRY_URL/$PROJECT_NAME:test
+  consul-server-leader:
+    image: consul:latest
+    container_name: consul-server-leader
+    command: "agent -server -bootstrap -ui -node=consul-server-leader -client=0.0.0.0"
     environment:
-      - "APP_PROJECT=hyperf"
-      - "APP_ENV=test"
+      - CONSUL_BIND_INTERFACE=eth0
     ports:
-      - 9501:9501
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 5
-      update_config:
-        parallelism: 2
-        delay: 5s
-        order: start-first
+      - "8500:8500"
     networks:
-      - hyperf_net
-    configs:
-      - source: hyperf_v1.0
-        target: /opt/www/.env
-configs:
-  hyperf_v1.0:
-    external: true
+      - microservice
+
+  microservice-1:
+    build:
+      context: .
+    container_name: "microservice-1"
+    command: "php bin/hyperf.php start"
+    depends_on:
+      - "consul-server-leader"
+    volumes:
+      - ./www/microservice-1:/var/www
+    networks:
+      - microservice
+    tty: true
+
+  microservice-2:
+    build:
+      context: .
+    container_name: "microservice-2"
+    command: "php bin/hyperf.php start"
+    depends_on:
+      - "consul-server-leader"
+    volumes:
+      - ./www/microservice-2:/var/www
+    networks:
+      - microservice
+    tty: true
+
+  app:
+    build:
+      context: .
+    container_name: "app"
+    command: "php bin/hyperf.php start"
+    depends_on:
+      - "microservice-1"
+    volumes:
+      - ./www/web:/var/www
+    ports:
+      - "9501:9501"
+    networks:
+      - microservice
+    tty: true
+
 networks:
-  hyperf_net:
-    external: true
+  microservice:
+    driver: bridge
+
+volumes:
+  microservice:
+    driver: local

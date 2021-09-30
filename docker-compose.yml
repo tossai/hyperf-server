@@ -11,7 +11,8 @@ services:
     ports:
       - "8500:8500"
     networks:
-      - hyperfservice
+      - hyperfservice:
+          - ipv4_address: 172.20.0.2
   hyperfservice-1:
     image: hyperf/hyperf:7.4-alpine-v3.14-swoole
     container_name: "hyperfservice-1"
@@ -28,7 +29,8 @@ services:
       - "9504:9504"
       - "9505:9505"
     networks:
-      - hyperfservice
+      - hyperfservice:
+          - ipv4_address: 172.20.0.3
     tty: true
   app:
     image: hyperf/hyperf:7.4-alpine-v3.14-swoole
@@ -42,11 +44,16 @@ services:
     ports:
       - "27017:27017"
     networks:
-      - hyperfservice
+      - hyperfservice:
+          - ipv4_address: 172.20.0.4
     tty: true
 networks:
   hyperfservice:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 127.20.0.0/16
+          gateway: 172.20.0.1
 volumes:
   hyperfservice:
     driver: local
